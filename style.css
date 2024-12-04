@@ -5,7 +5,12 @@ td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-
+span {
+    
+  width: 160px;
+  display: inline-block;
+  text-align: center;
+}
 /* Táblázat első és utolsó oszlopának háttérszíne */
 table tbody tr td:first-child,
 table tbody tr td:last-child {
