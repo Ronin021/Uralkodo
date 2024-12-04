@@ -1,9 +1,29 @@
-tbody,tr,td,th{
-    border: 1px solid #000 ;
-    border-collapse: collapse;
+/* Táblázat keretezés */
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
 }
 
-.error{
-    color: red;
-    text-shadow: 10px;
+/* Táblázat első és utolsó oszlopának háttérszíne */
+table tbody tr td:first-child,
+table tbody tr td:last-child {
+  background-color: #f0f8ff;
+}
+
+/* Hibás adat színezése */
+.error {
+  color: white;
+  background-color: red;
+  box-shadow: 0 0 5px red;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
 }
