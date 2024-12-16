@@ -1,34 +1,7 @@
-/* Táblázat keretezés */
-table,
-th,
-td {
-  border: 1px solid black;
+.kiemelt_oszlop{
+  background-color: burlywood;
+}
+table, tbody, tr, td, thead, th{
+  border: 2px solid black;
   border-collapse: collapse;
-}
-span {
-    
-  width: 160px;
-  display: inline-block;
-  text-align: center;
-}
-/* Táblázat első és utolsó oszlopának háttérszíne */
-table tbody tr td:first-child,
-table tbody tr td:last-child {
-  background-color: #f0f8ff;
-}
-
-/* Hibás adat színezése */
-.error {
-  color: white;
-  background-color: red;
-  box-shadow: 0 0 5px red;
-}
-
-table {
-  width: 100%;
-  text-align: center;
-}
-
-h1 {
-  text-align: center;
 }
