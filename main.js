@@ -79,7 +79,7 @@ fejlecCella3.innerHTML = fejlecek.Evszam_fej; // Fejléc harmadik oszlopának sz
 
 
 
-
+function RenderTorzs(){
 // A ciklust innen vezetjük be
 for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     const aktivsor = document.createElement('tr'); // Új sor létrehozása
@@ -116,4 +116,5 @@ for (const currentElement of array) { // Végigmegyünk az array tömb elemein
         aktivsor2.appendChild(Evszamsor2); // Cellának hozzáfűzése az új sorhoz (aktivsor2)
     }
 }    
-
+}
+RenderTorzs()
