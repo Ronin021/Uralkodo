@@ -79,7 +79,7 @@ fejlecCella3.innerHTML = fejlecek.Evszam_fej; // Fejléc harmadik oszlopának sz
 
 
 
-function RenderTorzs(){
+function RenderTorzs(array){
 // A ciklust innen vezetjük be
 for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     const aktivsor = document.createElement('tr'); // Új sor létrehozása
@@ -117,4 +117,52 @@ for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     }
 }    
 }
-RenderTorzs()
+RenderTorzs(array)  // A függvény meghívása, amely létrehozza és kirajzolja a táblázat törzsét
+
+const form = document.getElementById('form'); // Form elem kiválasztása az ID alapján
+
+// Eseményfigyelő hozzáadása a form submit eseményére
+form.addEventListener('submit', function(e) {
+    e.preventDefault(); // Alapértelmezett form viselkedésének megakadályozása (pl. oldal újratöltése)
+
+    // Uralkodó mező értékének lekérése
+    const uralkodoHTMLelement = document.getElementById('uralkodo_nev'); // Input mező kiválasztása ID alapján
+    const uralkodoValue = uralkodoHTMLelement.value; // Input mező értékének lekérése
+
+    // Esemény mező értékének lekérése
+    const esemenyHTMLelement = document.getElementById('esemeny1'); // Input mező kiválasztása ID alapján
+    const esemenyValue = esemenyHTMLelement.value; // Input mező értékének lekérése
+
+    // Második esemény mező értékének lekérése
+    const esemeny2HTMLelement = document.getElementById('esemeny2'); // Input mező kiválasztása ID alapján
+    const esemeny2Value = esemeny2HTMLelement.value; // Input mező értékének lekérése
+
+    // Évszám mező értékének lekérése
+    const evszamHTMLelement = document.getElementById('evszam1'); // Input mező kiválasztása ID alapján
+    const evszamValue = evszamHTMLelement.value; // Input mező értékének lekérése
+
+    // Második évszám mező értékének lekérése
+    const evszam2HTMLelement = document.getElementById('evszam2'); // Input mező kiválasztása ID alapján
+    const evszam2Value = evszam2HTMLelement.value; // Input mező értékének lekérése
+
+    // Új objektum létrehozása az űrlap mezőinek értékeiből
+    const newUralkodo = {
+        Uralkodo: uralkodoValue, // Uralkodó értékének hozzárendelése
+        Esemeny: esemenyValue, // Esemény értékének hozzárendelése
+        Evszam: evszamValue, // Évszám értékének hozzárendelése
+        Esemeny2: esemeny2Value, // Második esemény értékének hozzárendelése
+        Evszam2: evszam2Value // Második évszám értékének hozzárendelése
+    };
+
+    if (newUralkodo.esemeny2 === '' && newUralkodo.evszam2 === '') { 
+        // Ellenőrizzük, hogy az Esemeny2 és az Evszam2 mezők üresek-e
+        newUralkodo.Esemeny2 = undefined; // Ha üres, az Esemeny2 értékét undefined-re állítjuk
+        newUralkodo.Evszam2 = undefined; // Ha üres, az Evszam2 értékét undefined-re állítjuk
+    }
+    
+
+
+    array.push(newUralkodo); // Új objektum hozzáadása az array tömbhöz
+    torzs.innerHTML = ''; // A táblázat törzs (tbody) tartalmának törlése
+    RenderTorzs(array); // A táblázat újrarenderelése a frissített adatokkal
+});
