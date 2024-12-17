@@ -4,10 +4,9 @@ const array = [
         Uralkodo: `I. István`, // Első sor első cellájának szövege
         Esemeny: `Koronázás`, // Első sor második cellájának szövege
         Evszam: `1000` // Első sor harmadik cellájának szövege
-    },
-    {
-        Esemeny: `Pannonhalmi apátság megalapítása`, // Második sor második cellájának szövege
-        Evszam: `1001` // Második sor harmadik cellájának szövege
+    ,
+        Esemeny2: `Pannonhalmi apátság megalapítása`, // Második sor második cellájának szövege
+        Evszam2: `1001` // Második sor harmadik cellájának szövege
     },
     {
         Uralkodo: `IV. Béla`, // Harmadik sor első cellájának szövege
@@ -18,19 +17,17 @@ const array = [
         Uralkodo: `Mátyás király`, // Negyedik sor első cellájának szövege
         Esemeny: `Bécs elfoglalása`, // Negyedik sor második cellájának szövege
         Evszam: `1485` // Negyedik sor harmadik cellájának szövege
-    },
-    {
-        Esemeny: `Kenyérmezei csata`, // Ötödik sor második cellájának szövege
-        Evszam: `1479` // Ötödik sor harmadik cellájának szövege
+    ,
+        Esemeny2: `Kenyérmezei csata`, // Ötödik sor második cellájának szövege
+        Evszam2: `1479` // Ötödik sor harmadik cellájának szövege
     },
     {
         Uralkodo: `II. Rákoczi Ferenc`, // Hatodik sor első cellájának szövege
         Esemeny: `A szabadságharc kezdete`, // Hatodik sor második cellájának szövege
         Evszam: `1703` // Hatodik sor harmadik cellájának szövege
-    },
-    {
-        Esemeny: `A szabadságharc vége`, // Hetedik sor második cellájának szövege
-        Evszam: `1711` // Hetedik sor harmadik cellájának szövege
+    ,
+        Esemeny2: `A szabadságharc vége`, // Hetedik sor második cellájának szövege
+        Evszam2: `1711` // Hetedik sor harmadik cellájának szövege
     }
 ];
 
@@ -80,6 +77,9 @@ const fejlecCella3 = document.createElement('th'); // Harmadik cella létrehozá
 fejlecSor.appendChild(fejlecCella3); // Harmadik cella hozzáadása a fejléchez
 fejlecCella3.innerHTML = fejlecek.Evszam_fej; // Fejléc harmadik oszlopának szövegének beállítása
 
+
+
+
 // A ciklust innen vezetjük be
 for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     const aktivsor = document.createElement('tr'); // Új sor létrehozása
@@ -88,14 +88,35 @@ for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     const Uralkodosor = document.createElement('td'); // Első oszlop cellájának létrehozása
     Uralkodosor.innerHTML = currentElement.Uralkodo ; // Cellatartalom beállítása
     aktivsor.appendChild(Uralkodosor); // Első cella hozzáfűzése az aktuális sorhoz
-
+ 
+  
     const Esemenysor = document.createElement('td'); // Második oszlop cellájának létrehozása
     Esemenysor.innerHTML = currentElement.Esemeny; // Cellatartalom beállítása
     aktivsor.appendChild(Esemenysor);// Második cella hozzáfűzése az aktuális sorhoz
-
+  
+  
     const Evszamsor = document.createElement('td'); // Harmadik oszlop cellájának létrehozása
     Evszamsor.innerHTML = currentElement.Evszam;// Cellatartalom beállítása
     aktivsor.appendChild(Evszamsor);// Harmadik cella hozzáfűzése az aktuális sorhoz
 
+    if(currentElement.Esemeny2 !== undefined && currentElement.Evszam2 !== undefined){
+        Uralkodosor.rowSpan = 2
+         const aktivsor2 = document.createElement('tr'); 
+         torzs.appendChild(aktivsor2);
+ 
+ 
+         const Esemenysor2 = document.createElement('td'); 
+          Esemenysor2.innerHTML = currentElement.Esemeny2; 
+           aktivsor2.appendChild(Esemenysor2);
+ 
+       
+         const Evszamsor2 = document.createElement('td');
+         Evszamsor2.innerHTML = currentElement.Evszam2;
+         aktivsor2.appendChild(Evszamsor2);
+ 
+     
+     } 
+ 
+   
  }
 
