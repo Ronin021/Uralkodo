@@ -80,7 +80,7 @@ const fejlecCella3 = document.createElement('th'); // Harmadik cella létrehozá
 fejlecSor.appendChild(fejlecCella3); // Harmadik cella hozzáadása a fejléchez
 fejlecCella3.innerHTML = fejlecek.Evszam_fej; // Fejléc harmadik oszlopának szövegének beállítása
 
-// Sorok dinamikus létrehozása a tömb alapján
+// A ciklust innen vezetjük be
 for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     const aktivsor = document.createElement('tr'); // Új sor létrehozása
     torzs.appendChild(aktivsor); // Sor hozzáfűzése a táblázat törzséhez
