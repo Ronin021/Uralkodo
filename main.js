@@ -99,24 +99,21 @@ for (const currentElement of array) { // Végigmegyünk az array tömb elemein
     Evszamsor.innerHTML = currentElement.Evszam;// Cellatartalom beállítása
     aktivsor.appendChild(Evszamsor);// Harmadik cella hozzáfűzése az aktuális sorhoz
 
-    if(currentElement.Esemeny2 !== undefined && currentElement.Evszam2 !== undefined){
-        Uralkodosor.rowSpan = 2
-         const aktivsor2 = document.createElement('tr'); 
-         torzs.appendChild(aktivsor2);
- 
- 
-         const Esemenysor2 = document.createElement('td'); 
-          Esemenysor2.innerHTML = currentElement.Esemeny2; 
-           aktivsor2.appendChild(Esemenysor2);
- 
-       
-         const Evszamsor2 = document.createElement('td');
-         Evszamsor2.innerHTML = currentElement.Evszam2;
-         aktivsor2.appendChild(Evszamsor2);
- 
-     
-     } 
- 
-   
- }
+    if (currentElement.Esemeny2 !== undefined && currentElement.Evszam2 !== undefined) { 
+        // Ellenőrizzük, hogy a currentElement tartalmaz-e Esemeny2 és Evszam2 értékeket
+        
+        Uralkodosor.rowSpan = 2; // Az Uralkodosor cella két sorra terjed ki (összekapcsolás)
+    
+        const aktivsor2 = document.createElement('tr'); // Új sor (tr) létrehozása a második sor számára
+        torzs.appendChild(aktivsor2); // Új sor hozzáadása a táblázat törzséhez (tbody)
+    
+        const Esemenysor2 = document.createElement('td'); // Új cella létrehozása a második sor eseményéhez
+        Esemenysor2.innerHTML = currentElement.Esemeny2; // Cellatartalom beállítása az Esemeny2 értékével
+        aktivsor2.appendChild(Esemenysor2); // Cellának hozzáfűzése az új sorhoz (aktivsor2)
+    
+        const Evszamsor2 = document.createElement('td'); // Új cella létrehozása a második sor évszámához
+        Evszamsor2.innerHTML = currentElement.Evszam2; // Cellatartalom beállítása az Evszam2 értékével
+        aktivsor2.appendChild(Evszamsor2); // Cellának hozzáfűzése az új sorhoz (aktivsor2)
+    }
+}    
 
