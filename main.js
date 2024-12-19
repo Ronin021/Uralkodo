@@ -173,20 +173,11 @@ if (!validateFormHtmlField(evszamHTMLelement, "Az évszám megadása kötelező"
     validation = false; // Ha a függvény hamissal tér vissza, az űrlap érvénytelen
 }
 
-// Ha az esemény2 mező üres, de az évszám2 kitöltött
-if (esemeny2Value === '' && evszam2Value !== '') {
-    if (!validateFormHtmlField(evszam2HTMLelement, 'Az eseményhez kell évszám is')) {
-        validation = false; // Érvénytelen az űrlap, ha a validateFormHtmlField hamissal tér vissza
-    }
-}
 
-// Ha az évszám2 mező üres, de az esemény2 kitöltött
-if (esemeny2Value !== '' && evszam2Value === '') {
-    if (!validateFormHtmlField(esemeny2HTMLelement, 'Az évszámhoz kell esemény is')) {
-        validation = false; // Érvénytelen az űrlap, ha a validateFormHtmlField hamissal tér vissza
-    }
-}
 
+if (!osszetettvalidateFormHTMLField(esemeny2HTMLelement, evszam2HTMLelement, 'Minden eseményhez kell évszám és fordítva is')) {
+    validation = false; // Érvénytelen az űrlap, ha az osszetettvalidateFormHTMLField hamissal tér vissza
+}
 
 // Ha az űrlap validált, folytatjuk az adatfeldolgozást
 if (validation) {
@@ -222,6 +213,8 @@ if (validation) {
  * Egy mező értékének validálása és hibaüzenet kezelése
  * @param {*} inputhtmlmessage HTMLelement - az input mező
  * @param {*} errormessage string - a megjelenítendő hibaüzenet
+ * @returns {boolean} true, ha az ellenőrzés sikeres; különben false
+
  */
 function validateFormHtmlField(inputhtmlmessage, errormessage) {
     let validation = true; // Alapértelmezett érvényességi állapot
@@ -237,4 +230,38 @@ function validateFormHtmlField(inputhtmlmessage, errormessage) {
     }
 
     return validation; // Az érvényességi állapot visszaadása
+}
+/**
+ * Ellenőrzi, hogy az esemény2 mező kitöltött-e, ha az évszám2 mező is kitöltött, és fordítva.
+ * @param {*} Esemeny2input A második eseményt tartalmazó HTML input elem
+ * @param {*} Evszam2input A második évszámot tartalmazó HTML input elem
+ * @param {*} errormessage A hibaüzenet szövege, amely megjelenik, ha az ellenőrzés sikertelen
+ * @returns {boolean} true, ha az ellenőrzés sikeres; különben false
+ */
+function osszetettvalidateFormHTMLField(Esemeny2input, Evszam2input, errormessage) {
+    let validation = true;
+
+    // Ha az esemény2 mező üres, de az évszám2 kitöltött
+    if (Esemeny2input.value === '' && Evszam2input.value !== '') {
+        const parent = Esemeny2input.parentElement; // Az esemény2 mező szülő elemének lekérése
+        const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
+
+        if (place_of_error != undefined) {
+            place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
+        }
+        validation = false; // Érvénytelen, ha nincs esemény az évszámhoz
+    }
+
+    // Ha az évszám2 mező üres, de az esemény2 kitöltött
+    if (Esemeny2input.value !== '' && Evszam2input.value === '') {
+        const parent = Evszam2input.parentElement; // Az évszám2 mező szülő elemének lekérése
+        const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
+
+        if (place_of_error != undefined) {
+            place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
+        }
+        validation = false; // Érvénytelen, ha nincs évszám az eseményhez
+    }
+
+    return validation; // Visszatérés az érvényesség eredményével
 }
