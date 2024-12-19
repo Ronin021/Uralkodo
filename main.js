@@ -175,23 +175,18 @@ if (!validateFormHtmlField(evszamHTMLelement, "Az évszám megadása kötelező"
 
 // Ha az esemény2 mező üres, de az évszám2 kitöltött
 if (esemeny2Value === '' && evszam2Value !== '') {
-    const parent = esemeny2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-    const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-    if (place_of_error != undefined) {
-        place_of_error.innerHTML = 'Az eseményhez kell évszám is'; // Hibaüzenet beállítása
+    if (!validateFormHtmlField(evszam2HTMLelement, 'Az eseményhez kell évszám is')) {
+        validation = false; // Érvénytelen az űrlap, ha a validateFormHtmlField hamissal tér vissza
     }
-    validation = false; // Érvénytelen az űrlap
 }
 
 // Ha az évszám2 mező üres, de az esemény2 kitöltött
 if (esemeny2Value !== '' && evszam2Value === '') {
-    const parent = evszam2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-    const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-    if (place_of_error != undefined) {
-        place_of_error.innerHTML = 'Az évszámhoz kell esemény is'; // Hibaüzenet beállítása
+    if (!validateFormHtmlField(esemeny2HTMLelement, 'Az évszámhoz kell esemény is')) {
+        validation = false; // Érvénytelen az űrlap, ha a validateFormHtmlField hamissal tér vissza
     }
-    validation = false; // Érvénytelen az űrlap
 }
+
 
 // Ha az űrlap validált, folytatjuk az adatfeldolgozást
 if (validation) {
