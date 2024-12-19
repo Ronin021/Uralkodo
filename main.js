@@ -61,45 +61,43 @@ const fejlecek = {
     Evszam_fej: `Évszám` // Fejléc harmadik oszlopának szövege
 };
 
-// Fejrész kitöltése
 const fejlecSor = document.createElement('tr'); // Új sor létrehozása a fejléchez
 fejlec.appendChild(fejlecSor); // Fejléchez tartozó sor hozzáadása
 
-const fejlecCella1 = document.createElement('th'); // Első cella létrehozása a fejléchez
-fejlecSor.appendChild(fejlecCella1); // Első cella hozzáadása a fejléchez
-fejlecCella1.innerHTML = fejlecek.Uralkodo_fej; // Fejléc első oszlopának szövegének beállítása
+// Fejléc szövegek iterációval történő beállítása
+for (const fejlecSzoveg of [fejlecek.Uralkodo_fej, fejlecek.Esemeny_fej, fejlecek.Evszam_fej]) {
+    const fejlecCella = document.createElement('th'); // Új cella létrehozása a fejléchez
+    fejlecCella.innerHTML = fejlecSzoveg; // Fejléc szövegének beállítása
+    fejlecSor.appendChild(fejlecCella); // Fejléc cella hozzáadása a sorhoz
+}
 
-const fejlecCella2 = document.createElement('th'); // Második cella létrehozása a fejléchez
-fejlecSor.appendChild(fejlecCella2); // Második cella hozzáadása a fejléchez
-fejlecCella2.innerHTML = fejlecek.Esemeny_fej; // Fejléc második oszlopának szövegének beállítása
+/**
+ * Rendereli a táblázat törzsének (tbody) tartalmát az adott adatokat tartalmazó tömb alapján.
+ * Minden adat elem egy új sorban jelenik meg a táblázatban, és ha van második esemény és évszám,
+ * azok külön sorban jelennek meg, az első sor pedig összekapcsolódik. Függvénybeszervezhető is lehetne akár
+ * 
+ * @param {Array} array - A táblázat adatait tartalmazó tömb, ahol minden elem egy objektum, amely
+ *                        tartalmazza az uralkodót, eseményt, és évszámokat.
+ */
+function RenderTorzs(array) {
+    // Iterálunk az array tömb minden elemén
+    for (const currentElement of array) { 
+        const aktivsor = document.createElement('tr'); // Új sor létrehozása a táblázathoz
+        torzs.appendChild(aktivsor); // Sor hozzáadása a táblázat törzséhez
 
-const fejlecCella3 = document.createElement('th'); // Harmadik cella létrehozása a fejléchez
-fejlecSor.appendChild(fejlecCella3); // Harmadik cella hozzáadása a fejléchez
-fejlecCella3.innerHTML = fejlecek.Evszam_fej; // Fejléc harmadik oszlopának szövegének beállítása
+        const Uralkodosor = document.createElement('td'); // Első oszlop cellájának létrehozása
+        Uralkodosor.innerHTML = currentElement.Uralkodo; // Uralkodó adatának beállítása
+        aktivsor.appendChild(Uralkodosor); // Cellához hozzáadása
 
+        const Esemenysor = document.createElement('td'); // Második oszlop cellájának létrehozása
+        Esemenysor.innerHTML = currentElement.Esemeny; // Esemény adatának beállítása
+        aktivsor.appendChild(Esemenysor); // Cellához hozzáadása
 
+        const Evszamsor = document.createElement('td'); // Harmadik oszlop cellájának létrehozása
+        Evszamsor.innerHTML = currentElement.Evszam; // Évszám adatának beállítása
+        aktivsor.appendChild(Evszamsor); // Cellához hozzáadása
 
-function RenderTorzs(array){
-// A ciklust innen vezetjük be
-for (const currentElement of array) { // Végigmegyünk az array tömb elemein
-    const aktivsor = document.createElement('tr'); // Új sor létrehozása
-    torzs.appendChild(aktivsor); // Sor hozzáfűzése a táblázat törzséhez
-
-    const Uralkodosor = document.createElement('td'); // Első oszlop cellájának létrehozása
-    Uralkodosor.innerHTML = currentElement.Uralkodo ; // Cellatartalom beállítása
-    aktivsor.appendChild(Uralkodosor); // Első cella hozzáfűzése az aktuális sorhoz
- 
-  
-    const Esemenysor = document.createElement('td'); // Második oszlop cellájának létrehozása
-    Esemenysor.innerHTML = currentElement.Esemeny; // Cellatartalom beállítása
-    aktivsor.appendChild(Esemenysor);// Második cella hozzáfűzése az aktuális sorhoz
-  
-  
-    const Evszamsor = document.createElement('td'); // Harmadik oszlop cellájának létrehozása
-    Evszamsor.innerHTML = currentElement.Evszam;// Cellatartalom beállítása
-    aktivsor.appendChild(Evszamsor);// Harmadik cella hozzáfűzése az aktuális sorhoz
-
-    if (currentElement.Esemeny2 !== undefined && currentElement.Evszam2 !== undefined) { 
+    if (currentElement.Esemeny2 !== undefined && currentElement.Evszam2 !== undefined) { //Itt ellenőrizzük, hogy az események és évszámok két sorra való elhelyezéséhez szükséges adatok (Esemeny2, Evszam2) léteznek-e. Ha igen, akkor két sorra bontjuk az adatokat, és az első oszlopban a rowSpan értéke 2-re változik.
         // Ellenőrizzük, hogy a currentElement tartalmaz-e Esemeny2 és Evszam2 értékeket
         
         Uralkodosor.rowSpan = 2; // Az Uralkodosor cella két sorra terjed ki (összekapcsolás)
@@ -159,7 +157,7 @@ for (const errorok of errorElement) {
 let validation = true; // Az űrlap érvényességét jelző változó
 
 // Validáljuk az uralkodó mezőt a validateFormHtmlField függvénnyel
-if (!validateFormHtmlField(uralkodoHTMLelement, "Az uralkodó nevének megadása kötelező")) { 
+if (!validateFormHtmlField(uralkodoHTMLelement, "Az uralkodó nevének megadása kötelező")) { //Itt ellenőrizzük, hogy a "Uralkodó" mező kitöltött-e. Ha nem, akkor beállítjuk az érvénytelenséget és megjelenítjük a megfelelő hibaüzenetet.
     validation = false; // Ha a függvény hamissal tér vissza, az űrlap érvénytelen
 }
 
@@ -219,11 +217,12 @@ if (validation) {
 function validateFormHtmlField(inputhtmlmessage, errormessage) {
     let validation = true; // Alapértelmezett érvényességi állapot
 
-    if (inputhtmlmessage === '') { // Ellenőrizzük, hogy a mező üres-e
+    if (inputhtmlmessage === '') { //Itt ellenőrizzük, hogy a mező üres-e. Ha igen, akkor érvénytelenítjük az űrlapot, és hibaüzenetet jelenítünk meg.
+
         const parent = inputhtmlmessage.parentElement; // A mező szülő elemének lekérése
         const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
 
-        if (place_of_error != undefined) {
+        if (place_of_error != undefined) {// Ha létezik hibaüzenet hely, akkor megjelenítjük a hibaüzenetet
             place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
         }
         validation = false; // A mező érvénytelen
@@ -242,22 +241,25 @@ function osszetettvalidateFormHTMLField(Esemeny2input, Evszam2input, errormessag
     let validation = true;
 
     // Ha az esemény2 mező üres, de az évszám2 kitöltött
-    if (Esemeny2input.value === '' && Evszam2input.value !== '') {
+    if (Esemeny2input.value === '' && Evszam2input.value !== '') {//Itt azt ellenőrizzük, hogy ha az esemény2 mező üres, de az évszám2 kitöltött, akkor érvénytelen az űrlap, és hibaüzenetet jelenítünk meg.
         const parent = Esemeny2input.parentElement; // Az esemény2 mező szülő elemének lekérése
         const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
 
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
+        if (place_of_error != undefined) { 
+            // Ha létezik hibaüzenet hely, akkor megjelenítjük a hibaüzenetet
+            place_of_error.innerHTML = errormessage; // A hibaüzenet megjelenítése
         }
+        
         validation = false; // Érvénytelen, ha nincs esemény az évszámhoz
     }
 
     // Ha az évszám2 mező üres, de az esemény2 kitöltött
-    if (Esemeny2input.value !== '' && Evszam2input.value === '') {
+    if (Esemeny2input.value !== '' && Evszam2input.value === '') {//Ugyanaz csak fordítva
         const parent = Evszam2input.parentElement; // Az évszám2 mező szülő elemének lekérése
         const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
 
         if (place_of_error != undefined) {
+            // Ha létezik hibaüzenet hely, akkor megjelenítjük a hibaüzenetet
             place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
         }
         validation = false; // Érvénytelen, ha nincs évszám az eseményhez
