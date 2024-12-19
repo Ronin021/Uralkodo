@@ -140,6 +140,9 @@ form.addEventListener('submit', function(e) {
     // Második évszám mező értékének lekérése
     const evszam2HTMLelement = document.getElementById('evszam2'); // Input mező kiválasztása ID alapján
 
+    
+    
+
 
     const ThisForm = e.currentTarget; // Az éppen aktuális form elem, amelyre az esemény vonatkozik
 
@@ -148,78 +151,56 @@ form.addEventListener('submit', function(e) {
     const errorElement = ThisForm.querySelectorAll('.error'); // Kiválasztjuk az összes hibaüzenet megjelenítésére szolgáló elemet
 
 
+// Az összes meglévő hibaüzenet kiürítése
+for (const errorok of errorElement) {
+    errorok.innerHTML = ''; // Az adott hibaüzenet elem tartalmát kiürítjük
+}
 
-    for(const errorok of errorElement){
-        errorok.innerHTML = '';
+let validation = true; // Az űrlap érvényességét jelző változó
+
+// Validáljuk az uralkodó mezőt a validateFormHtmlField függvénnyel
+if (!validateFormHtmlField(uralkodoHTMLelement, "Az uralkodó nevének megadása kötelező")) { 
+    validation = false; // Ha a függvény hamissal tér vissza, az űrlap érvénytelen
+}
+
+// Validáljuk az esemény mezőt a validateFormHtmlField függvénnyel
+if (!validateFormHtmlField(esemenyHTMLelement, "Az esemény megadása kötelező")) { 
+    validation = false; // Ha a függvény hamissal tér vissza, az űrlap érvénytelen
+}
+
+// Validáljuk az évszám mezőt a validateFormHtmlField függvénnyel
+if (!validateFormHtmlField(evszamHTMLelement, "Az évszám megadása kötelező")) { 
+    validation = false; // Ha a függvény hamissal tér vissza, az űrlap érvénytelen
+}
+
+// Ha az esemény2 mező üres, de az évszám2 kitöltött
+if (esemeny2Value === '' && evszam2Value !== '') {
+    const parent = esemeny2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
+    const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
+    if (place_of_error != undefined) {
+        place_of_error.innerHTML = 'Az eseményhez kell évszám is'; // Hibaüzenet beállítása
     }
+    validation = false; // Érvénytelen az űrlap
+}
 
-   let validation = true; // Az űrlap érvényességét jelző változó
+// Ha az évszám2 mező üres, de az esemény2 kitöltött
+if (esemeny2Value !== '' && evszam2Value === '') {
+    const parent = evszam2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
+    const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
+    if (place_of_error != undefined) {
+        place_of_error.innerHTML = 'Az évszámhoz kell esemény is'; // Hibaüzenet beállítása
+    }
+    validation = false; // Érvénytelen az űrlap
+}
+
+// Ha az űrlap validált, folytatjuk az adatfeldolgozást
+if (validation) {
     const uralkodoValue = uralkodoHTMLelement.value; // Input mező értékének lekérése
     const esemenyValue = esemenyHTMLelement.value; // Input mező értékének lekérése
     const esemeny2Value = esemeny2HTMLelement.value; // Input mező értékének lekérése
     const evszamValue = evszamHTMLelement.value; // Input mező értékének lekérése
     const evszam2Value = evszam2HTMLelement.value; // Input mező értékének lekérése
 
-
-    
-    // Végigmegyünk az összes hibaüzenet elemén, és töröljük azok tartalmát
-    for (const errorok of errorElement) {
-        errorok.innerHTML = ''; // Az adott hibaüzenet elem tartalmát kiürítjük
-    }
-    
-    
-    
-   //Ellenőrizzük, hogy az uralkodó mező üres-e
-    if (uralkodoValue === '') {
-        const parent = uralkodoHTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-        const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = 'A név megadása kötelező'; // Hibaüzenet beállítása
-        }
-        validation = false; // Érvénytelen az űrlap
-    }
-    
-    // Ellenőrizzük, hogy az esemény mező üres-e
-    if (esemenyValue === '') {
-        const parent = esemenyHTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-        const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = 'Az esemény megadása kötelező'; // Hibaüzenet beállítása
-        }
-        validation = false; // Érvénytelen az űrlap
-    }
-    
-    // Ellenőrizzük, hogy az évszám mező üres-e
-    if (evszamValue === '') {
-        const parent = evszamHTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-        const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = 'Az évszám megadása kötelező'; // Hibaüzenet beállítása
-        }
-        validation = false; // Érvénytelen az űrlap
-    }
-    
-    // Ha az esemény2 mező üres, de az évszám2 kitöltött
-    if (esemeny2Value === '' && evszam2Value !== '') {
-        const parent = esemeny2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-        const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = 'Az eseményhez kell évszám is'; // Hibaüzenet beállítása
-        }
-        validation = false; // Érvénytelen az űrlap
-    }
-    
-    // Ha az évszám2 mező üres, de az esemény2 kitöltött
-    if (esemeny2Value !== '' && evszam2Value === '') {
-        const parent = evszam2HTMLelement.parentElement; // Az inputmező szülő elemének lekérése
-        const place_of_error = parent.querySelector('.error'); // Hibaüzenet megjelenítésére szolgáló elem keresése
-        if (place_of_error != undefined) {
-            place_of_error.innerHTML = 'Az évszámhoz kell esemény is'; // Hibaüzenet beállítása
-        }
-        validation = false; // Érvénytelen az űrlap
-    }
-// Ha az űrlap validált, folytatjuk az adatfeldolgozást
-    if(validation){
     // Új objektum létrehozása az űrlap mezőinek értékeiből
     const newUralkodo = {
         Uralkodo: uralkodoValue, // Uralkodó értékének hozzárendelése
@@ -228,18 +209,37 @@ form.addEventListener('submit', function(e) {
         Esemeny2: esemeny2Value, // Második esemény értékének hozzárendelése
         Evszam2: evszam2Value // Második évszám értékének hozzárendelése
     };
+
     if (newUralkodo.esemeny2 === '' && newUralkodo.evszam2 === '') { 
         // Ellenőrizzük, hogy az Esemeny2 és az Evszam2 mezők üresek-e
         newUralkodo.Esemeny2 = undefined; // Ha üres, az Esemeny2 értékét undefined-re állítjuk
         newUralkodo.Evszam2 = undefined; // Ha üres, az Evszam2 értékét undefined-re állítjuk
     }
-    
-
-
 
     array.push(newUralkodo); // Új objektum hozzáadása az array tömbhöz
     torzs.innerHTML = ''; // A táblázat törzs (tbody) tartalmának törlése
     RenderTorzs(array); // A táblázat újrarenderelése a frissített adatokkal
     ThisForm.reset(); // Az űrlap mezőinek alapállapotba állítása
+}
+})
+
+/**
+ * Egy mező értékének validálása és hibaüzenet kezelése
+ * @param {*} inputhtmlmessage HTMLelement - az input mező
+ * @param {*} errormessage string - a megjelenítendő hibaüzenet
+ */
+function validateFormHtmlField(inputhtmlmessage, errormessage) {
+    let validation = true; // Alapértelmezett érvényességi állapot
+
+    if (inputhtmlmessage === '') { // Ellenőrizzük, hogy a mező üres-e
+        const parent = inputhtmlmessage.parentElement; // A mező szülő elemének lekérése
+        const place_of_error = parent.querySelector('.error'); // Hibaüzenet helyének keresése
+
+        if (place_of_error != undefined) {
+            place_of_error.innerHTML = errormessage; // Hibaüzenet megjelenítése
+        }
+        validation = false; // A mező érvénytelen
     }
-});
+
+    return validation; // Az érvényességi állapot visszaadása
+}
